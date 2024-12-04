@@ -1,0 +1,82 @@
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      REF(*LIBL/CUST)
+     A                                      CA03(03 'F3=EXIT')
+     A          R SCR1
+     A                                  1  2USER
+     A                                      COLOR(BLU)
+     A                                  1 28'ADD/UPDATE/DELETE/INQUIRE'
+     A                                      DSPATR(HI)
+     A                                  1 72DATE
+     A                                      EDTCDE(Y)
+     A                                      COLOR(BLU)
+     A                                  2  2'CUSTR01'
+     A                                      COLOR(BLU)
+     A                                  2 72TIME
+     A                                      COLOR(BLU)
+     A                                  6 12'(A)dd,(U)pdate,(D)elete'
+     A                                      COLOR(WHT)
+     A                                  6 36'(I)nquire, (N)ext'
+     A                                      COLOR(WHT)
+     A            ACTION         1A  B  6 55DSPATR(HI)
+     A                                  8 28'Cust#'
+     A                                      COLOR(YLW)
+     A            CSNBR     R        B  8 35REFFLD(CSNBR)
+     A                                      DSPATR(HI)
+     A                                      EDTCDE(Z)
+     A                                      CHECK(RZ)
+     A            ERRLIN        78A  O 22  2
+     A  90                                  DSPATR(RI)
+     A                                      COLOR(RED)
+     A                                 23 14'F3 = Exit'
+     A                                      COLOR(WHT)
+     A          R SCR2
+     A                                      CA09(09 'F9=Delete')
+     A                                  1  2USER
+     A                                      COLOR(BLU)
+     A                                  1 28'Customer File Maintenance'
+     A                                      COLOR(WHT)
+     A                                  1 72DATE
+     A                                      EDTCDE(Y)
+     A                                      COLOR(BLU)
+     A                                  2  2'CUSTR01'
+     A                                      COLOR(BLU)
+     A            MODE           7A  O  2 37
+     A                                  2 72TIME
+     A                                      COLOR(BLU)
+     A                                  3 28'Cust#'
+     A            CSNBR     R        O  3 37EDTCDE(4)
+     A                                      DSPATR(RI)
+     A                                  9 28'Name'
+     A                                      COLOR(WHT)
+     A            CSNAME    R        B  9 42
+     A N80                                  DSPATR(HI)
+     A  80                                  DSPATR(PR)
+     A                                 10 28'Address'
+     A                                      COLOR(WHT)
+     A            CSADR1    R        B 10 42
+     A N80                                  DSPATR(HI)
+     A  80                                  DSPATR(PR)
+     A                                 11 28'City'
+     A                                      COLOR(WHT)
+     A            CSCITY    R        B 11 42
+     A N80                                  DSPATR(HI)
+     A  80                                  DSPATR(PR)
+     A                                 12 28'State'
+     A                                      COLOR(WHT)
+     A            CSSTAT    R        B 12 42
+     A N80                                  DSPATR(HI)
+     A  80                                  DSPATR(PR)
+     A                                 13 28'Zip'
+     A                                      COLOR(WHT)
+     A            CSZIP     R        B 13 42
+     A N80                                  DSPATR(HI)
+     A  80                                  DSPATR(PR)
+     A            ERRLIN        78A  O 22  2
+     A  90                                  DSPATR(RI)
+     A                                      COLOR(RED)
+     A                                 23 14'F3 = Exit'
+     A                                      COLOR(WHT)
+     A                                 14 28'Points'
+     A                                      COLOR(WHT)
+     A            CSPOINTS  R        B 14 42REFFLD(CSREC/CSPOINTS *LIBL/CUST)
+     A                                      COLOR(WHT)
