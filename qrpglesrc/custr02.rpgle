@@ -28,46 +28,35 @@
     //*variables
     //*----------------------------------------------------
     dcl-s RecOk char(1);
-    dcl-s cust_ like(csnbr);
-    dcl-s points_ like(cspoints);
 
     //*----------------------------------------------------------
-    //*Program start
+    //*Program name
     //*----------------------------------------------------------
-    exsr main;
+    dcl-ds PgmDs psds qualified;
+      PgmName *proc;
+    end-ds;
+    Z1SCREEN = %trimr(PgmDs.PgmName) + '-1';
+
+    //*----------------------------------------------------------
+    //* main 
+    //*----------------------------------------------------------
     *InLR = *On;
 
-    //*----------------------------------------------------------
-    //* main - Main subroutine
-    //*----------------------------------------------------------
-    begsr main;
-      dow *in03 = *off;
-        exsr clearfld;
-        exfmt scr1;
-        ERRLIN = *blanks;
+    dow *in03 = *off;
 
-        *in90 = *off;
-        if *in03 = *off;
-          select;
-            when Action = 'A';
-              exsr AddRecord;
-            when Action = 'D';
-              exsr DltRecord;
-            when Action = 'I';
-              exsr InqRecord;
-            when Action = 'N';
-              exsr NextRecord;
-            when Action = 'U';
-              exsr UpdRecord;
-            other;
-            ERRLIN = Err8;
-            *in90 = *On;
-          endsl;
-        endif;
+      exsr clearfld;
+      exfmt scr1;
+      ERRLIN = *blanks;
 
-      enddo;
-    endsr;
-    //*****end-sr****************
+      *in90 = *off;
+      if *in03 = *off;
+
+        exsr AddRecord;
+
+      endif;
+
+    enddo;
+    //*****end-pgm****************
 
     //**********************************************
     // Add Record Subroutine
@@ -294,6 +283,5 @@
     // ClearFld - Clear all fields used
     //***********************************
     begSr ClearFld;
-      ACTION = *blanks;
       CSNBR = *zeros;
     endsr;

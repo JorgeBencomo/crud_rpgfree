@@ -9,15 +9,9 @@
      A                                  1 72DATE
      A                                      EDTCDE(Y)
      A                                      COLOR(BLU)
-     A                                  2  2'CUSTR01'
-     A                                      COLOR(BLU)
+     A            Z1SCREEN      12A  O  2  2COLOR(BLU)
      A                                  2 72TIME
      A                                      COLOR(BLU)
-     A                                  6 12'(A)dd,(U)pdate,(D)elete'
-     A                                      COLOR(WHT)
-     A                                  6 36'(I)nquire, (N)ext'
-     A                                      COLOR(WHT)
-     A            ACTION         1A  B  6 55DSPATR(HI)
      A                                  8 28'Cust#'
      A                                      COLOR(YLW)
      A            CSNBR     R        B  8 35REFFLD(CSNBR)
@@ -30,6 +24,7 @@
      A                                 23 14'F3 = Exit'
      A                                      COLOR(WHT)
      A          R SCR2
+     A                                      CA05(05 'F5=Update')
      A                                      CA09(09 'F9=Delete')
      A                                  1  2USER
      A                                      COLOR(BLU)
@@ -38,8 +33,7 @@
      A                                  1 72DATE
      A                                      EDTCDE(Y)
      A                                      COLOR(BLU)
-     A                                  2  2'CUSTR01'
-     A                                      COLOR(BLU)
+     A            Z1SCREEN      12A  O  2  2COLOR(BLU)
      A            MODE           7A  O  2 37
      A                                  2 72TIME
      A                                      COLOR(BLU)
@@ -71,12 +65,17 @@
      A            CSZIP     R        B 13 42
      A N80                                  DSPATR(HI)
      A  80                                  DSPATR(PR)
+     A                                 14 28'Points'
+     A                                      COLOR(WHT)
+     A            CSPOINTS  R        B 14 42
+     A N80                                  DSPATR(HI)
+     A  80                                  DSPATR(PR)
      A            ERRLIN        78A  O 22  2
      A  90                                  DSPATR(RI)
      A                                      COLOR(RED)
      A                                 23 14'F3 = Exit'
      A                                      COLOR(WHT)
-     A                                 14 28'Points'
+     A                                 23 34'F5 = Update'
      A                                      COLOR(WHT)
-     A            CSPOINTS  R        B 14 42REFFLD(CSREC/CSPOINTS *LIBL/CUST)
+     A                                 23 54'F9 = Delete'
      A                                      COLOR(WHT)
