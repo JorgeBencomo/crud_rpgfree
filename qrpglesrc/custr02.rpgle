@@ -117,43 +117,6 @@
     endsr;
     //*****End of sr*****************
 
-    //*****************************************
-    // DltRecord - Delete a record from file
-    //*****************************************
-    begSr DltRecord;
-      //*in80 is used by the display file to protect
-      //most fields since we are in DLT mode, set the
-      //*in on for no field entry
-      *in80 = *On;
-      MODE = 'DELETE';
-      //Display "Hit F9 to delete" in errlin
-      errlin = Msg4;
-      *in90 = *on;
-
-      //See if customer is in file. If not, show errMsg
-      // chain KEYLST CUST;
-      chain csnbr CUST;
-      if not %found(CUST);
-        errlin = Err2;
-      else;
-
-        //If customer is on file, show screen again and see
-        // if user hit F9 to confirm delete
-        exfmt scr2;
-        *in90 = *off;
-        if *in09 = *on;
-          delete CSREC;
-          errlin = msg3;
-        else;
-          errlin = msg9;
-        endif;
-
-      endif;
-
-      *in03 = *off;
-    endsr;
-    //*****end-sr****************
-
     //*********************************************************
     // InqRecord - Looks for one record
     // Indicator 80 is used by the display file to protect
@@ -177,6 +140,37 @@
       *in03 = *off;
     endsr;
     // *****end-sr *****************
+
+    //*****************************************
+    // DltRecord - Delete a record from file
+    //*****************************************
+    begSr DltRecord;
+      //*in80 is used by the display file to protect
+      //most fields since we are in DLT mode, set the
+      //*in on for no field entry
+
+      *in80 = *On;
+      MODE = 'DELETE';
+
+      //Display "Hit F9 to delete" in errlin
+      errlin = Msg4;
+      *in90 = *on;
+
+
+      //If customer is on file, show screen again and see
+      // if user hit F9 to confirm delete
+      exfmt scr2;
+      *in90 = *off;
+      if *in09 = *on;
+        delete CSREC;
+        errlin = msg3;
+      else;
+        errlin = msg9;
+      endif;
+
+      *in03 = *off;
+    endsr;
+    //*****end-sr****************
 
     //*************************************************
     // NextRecord - See the next record from selected *
@@ -220,22 +214,6 @@
       *in80 = *off;
       mode = 'UPDATE';
 
-      // chain KEYLST CUST;
-      chain csnbr CUST;
-      if not %found(CUST);
-        errlin = Err2;
-        *in90 = *On;
-      else;
-        exSr UpdScreen;
-      endif;
-
-    endsr;
-    //*******end-sr*****************
-
-    //******************************************************
-    // UpdScreen - update the screen during navigation     *
-    //******************************************************
-    begSr UpdScreen;
       RecOK = 'n';
       DoW RecOk = 'n' and *in03 = *off;
         exfmt scr2;
