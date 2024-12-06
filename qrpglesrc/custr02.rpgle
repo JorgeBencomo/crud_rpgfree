@@ -10,7 +10,7 @@
     //*----------------------------------------------------------
     //*constants which stores output messages to users
     //*----------------------------------------------------------
-    dcl-c Err1 CONST('Record already on file');
+    dcl-c Err1 CONST('Customer number must be greater than zero');
     dcl-c Err2 CONST('Record not on file');
     dcl-c Err3 CONST('No more records');
     dcl-c Err4 CONST('No more records');
@@ -46,7 +46,7 @@
 
       exsr clearfld;
       exfmt scr1;
-      ERRLIN = *blanks;
+      errlin = *blanks;
 
       *in90 = *off;
       if *in03 = *off;
@@ -68,27 +68,33 @@
       *in80 = *off;
       MODE = 'ADD';
 
-      // See if customer is already on file. If so,
-      // display error
-      //chain KEYLST CUST;
+      // See if customer is already on file.
+      
       chain csnbr CUST;
       if %found(CUST);
-        errlin = err1;
-        // In90 draws attention to the error line with rev
-        // display
-        *in90 = *On;
+        exsr InqRecord;
       else;
-        exSr AddScreen;
+        if csnbr > 0;
+          exSr AddScreen;
+        else;
+          errlin = Err1;
+        endif;
       endif;
 
     endSr;
-    // ***End of AddRecord**************************
+    // ***End-sr************************************
 
     //**********************************************
     // AddScreen subroutine - New record
     //**********************************************
     begSr AddScreen;
       //Clear all fields except the key field
+      exsr ClearFl2;
+
+      //Display "Record not on file" in errlin
+      errlin = Err2;
+      *in90 = *on;
+      
       RecOK = 'n';
       //Stay on this screen until user gets it right or hits F3
       dow RecOK = 'n' and *in03 = *off;
@@ -120,7 +126,7 @@
       //*in on for no field entry
       *in80 = *On;
       MODE = 'DELETE';
-      //Display "Hit F9 to delete" in ERRLIN
+      //Display "Hit F9 to delete" in errlin
       errlin = Msg4;
       *in90 = *on;
 
@@ -158,18 +164,19 @@
       *in80 = *on;
       mode = 'INQUIRY';
 
-      // chain KEYLST CUST;
-      chain csnbr CUST;
-      if not %found(CUST);
-        errlin = Err2;
-        *in90 = *On;
-      else;
-        exfmt scr2;
+      exfmt scr2;
+
+      if *in05 = *on;
+        exsr UpdRecord;
       endif;
 
+      if *in09 = *on;
+        exsr DltRecord;
+      endif;
+      
       *in03 = *off;
     endsr;
-    // *****end InqRecord *****************
+    // *****end-sr *****************
 
     //*************************************************
     // NextRecord - See the next record from selected *
@@ -237,10 +244,10 @@
           exSr EditRecord;
           if RecOk = 'y';
             update CSREC;
-            Errlin = Msg2;
+            errlin = Msg2;
           endif;
         else;
-          Errlin = Msg9;
+          errlin = Msg9;
         endif;
 
       enddo;
@@ -255,19 +262,19 @@
       RecOK = 'y';
       if CSNAME = *blanks;
         RecOK = 'n';
-        errlin = err5;
+        errlin = Err6;
         *in90 = *on;
       endif;
 
-      if CSSTAT = 'y';
+      if CSSTAT = *blanks;
         RecOK = 'n';
-        errlin = Err6;
+        errlin = Err7;
         *in90 = *On;
       endif;
 
-      if CSZIP = *zero;
+      if CSZIP = *blanks;
         RecOK = 'n';
-        errlin = Err4;
+        errlin = Err5;
         *in90 = *On;
       endif;
 
@@ -284,4 +291,16 @@
     //***********************************
     begSr ClearFld;
       CSNBR = *zeros;
+    endsr;
+
+    //***********************************
+    // ClearFl2 - Clear all fields used
+    //***********************************
+    begSr ClearFl2;
+      CSNAME = *blanks;
+      CSADR1 = *blanks;
+      CSCITY = *blanks;
+      CSSTAT = *blanks;
+      CSZIP  = *blanks;
+      CSPOINTS = *zeros;
     endsr;
