@@ -45,31 +45,37 @@
      A            CSNAME    R        B  9 42
      A N80                                  DSPATR(HI)
      A  80                                  DSPATR(PR)
+     A N80                                  DSPATR(UL)
      A                                 10 28'Address'
      A                                      COLOR(WHT)
      A            CSADR1    R        B 10 42
      A N80                                  DSPATR(HI)
      A  80                                  DSPATR(PR)
+     A N80                                  DSPATR(UL)
      A                                 11 28'City'
      A                                      COLOR(WHT)
      A            CSCITY    R        B 11 42
      A N80                                  DSPATR(HI)
      A  80                                  DSPATR(PR)
+     A N80                                  DSPATR(UL)
      A                                 12 28'State'
      A                                      COLOR(WHT)
      A            CSSTAT    R        B 12 42
      A N80                                  DSPATR(HI)
      A  80                                  DSPATR(PR)
+     A N80                                  DSPATR(UL)
      A                                 13 28'Zip'
      A                                      COLOR(WHT)
      A            CSZIP     R        B 13 42
      A N80                                  DSPATR(HI)
      A  80                                  DSPATR(PR)
+     A N80                                  DSPATR(UL)
      A                                 14 28'Points'
      A                                      COLOR(WHT)
      A            CSPOINTS  R        B 14 42
      A N80                                  DSPATR(HI)
      A  80                                  DSPATR(PR)
+     A N80                                  DSPATR(UL)
      A            ERRLIN        78A  O 22  2
      A  90                                  DSPATR(RI)
      A                                      COLOR(RED)
